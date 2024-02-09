@@ -1,19 +1,9 @@
-from typing import Union
+from dotenv import load_dotenv
+import os 
+import uvicorn
 
-from fastapi import FastAPI
-
-from models.Controller import Controller
-
-app = FastAPI()
-
-from pydantic import BaseModel
-
-app = FastAPI()
-
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-@app.post("/etat_chauffage/{etat}")
-async def update_etat_chauffage(etat: bool):
-    return {"etatChauffagee : ": etat}
+load_dotenv()
+PORT = int(os.get('PORT', 8000))
+HOST = '0.0.0.0'
+if __name__ == '__main__':
+    uvicorn.run('app.api:app', host=HOST, port=PORT, reload=True)
