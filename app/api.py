@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/")
 async def read_root():
-    return {"Hello": "World"}
+    return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
