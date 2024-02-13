@@ -1,8 +1,7 @@
 from typing import Union
-
 from fastapi import FastAPI
-
 from models.Controller import Controller
+from service import *
 
 app = FastAPI()
 
@@ -16,4 +15,5 @@ async def read_root():
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
+    envoieFireBase(etat)
     return {"etatChauffagee : ": etat}
