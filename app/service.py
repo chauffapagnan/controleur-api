@@ -7,7 +7,7 @@ from datetime import datetime
 import random
 
 def envoieFireBase(etat):   
-    cred = credentials.Certificate('credit.json')
+    cred = credentials.Certificate('app/credit.json')
     firebase_admin.initialize_app(cred)
 
     current_GMT = time.gmtime()
