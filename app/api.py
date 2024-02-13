@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
-from service import *
+from app.service import *
 
 app = FastAPI()
 
