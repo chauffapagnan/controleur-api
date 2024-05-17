@@ -25,7 +25,7 @@ async def read_root():
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
-    client.loop_read()
+    client.loop_forever()
     # envoieFireBase(etat)
     # #envoieFireBase(etat)
     # client.loop_stop()
