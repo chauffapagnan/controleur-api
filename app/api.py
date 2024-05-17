@@ -16,6 +16,8 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
+    # On start le service Mqtt
+    startMQTT() # le service start en asynchrone
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
@@ -26,8 +28,7 @@ async def update_etat_chauffage(etat: bool):
     # client.loop_start()
     return {"etatChauffagee : ": etat}
 
-# On start le service Mqtt
-startMQTT() # le service start en asynchrone
+
 
 
 
