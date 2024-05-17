@@ -16,7 +16,9 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
-    mqtt_client_thread() # le service start en asynchrone
+    client.loop_stop()
+    client.publish("TestVercel", payload=transcript(1))
+    client.loop_start()
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
