@@ -1,6 +1,7 @@
 import time
 import paho.mqtt.client as paho
 from paho import mqtt
+from app.service import *
 
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
@@ -40,7 +41,6 @@ client.on_publish = on_publish
 
 # subscribe to all topics of encyclopedia by using the wildcard "#"
 client.subscribe("#", qos=1)
-client.loop_forever()
 
 
 
