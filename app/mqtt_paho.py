@@ -4,19 +4,19 @@ from paho import mqtt
 
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
-    print("CONNACK received with code %s." % rc)
+    print("[MQTT-OK] CONNECT received with code %s." % rc)
 
 # with this callback you can see if your publish was successful
 def on_publish(client, userdata, mid, properties=None, payload=None):
-    print("mid: " + str(mid))
+    print("[MQTT-OK] mid: " + str(mid))
 
 # print which topic was subscribed to
 def on_subscribe(client, userdata, mid, granted_qos, properties=None):
-    print("Subscribed: " + str(mid) + " " + str(granted_qos))
+    print("[MQTT-OK] Subscribed: " + str(mid) + " " + str(granted_qos))
 
 # print message, useful for checking if it was successful
 def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    print("[MQTT-OK] " + "Topic : " +msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
 # using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
