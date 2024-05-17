@@ -37,6 +37,8 @@ def mqtt_client_thread():
 
     # Subscribe to all topics
     client.subscribe("#", qos=1)
+    # a single publish, this can also be done in loops, etc.
+    client.publish("encyclopedia/temperature", payload="hot", qos=1)
 
     # Start the loop
     client.loop_forever()
