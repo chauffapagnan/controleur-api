@@ -18,7 +18,7 @@ def transcript(etat: bool):
 async def read_root():
     client.loop_stop()
     client.publish("TestVercel", payload=transcript(1))
-    client.loop_start()
+    client.loop_forever()
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
