@@ -18,6 +18,8 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
+    client.loop_stop()
+    client.loop_start()
     # client.subscribe("#", qos=1)
     # client.loop_forever()
     return {"chauffage": "Controleur API "}

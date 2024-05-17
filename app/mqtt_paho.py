@@ -16,6 +16,7 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
 
 # print message, useful for checking if it was successful
 def on_message(client, userdata, msg):
+    envoieFireBase(True)
     print("[MQTT-OK] " + "Topic : " +msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
@@ -39,6 +40,7 @@ client.on_publish = on_publish
 
 # subscribe to all topics of encyclopedia by using the wildcard "#"
 client.subscribe("#", qos=1)
+client.loop_forever()
 
 
 
