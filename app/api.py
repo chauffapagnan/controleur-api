@@ -28,13 +28,13 @@ async def read_root():
 async def update_etat_chauffage(etat: bool):
     while True:
         sleep(5)
-        client.loop_forever()
+        client.loop_read()
     # envoieFireBase(etat)
     # #envoieFireBase(etat)
     # client.loop_stop()
     # client.publish("CONTROL", payload=transcript(etat))
     # client.loop_start()
-    return {"etatChauffagee : ": etat}
+    #return {"etatChauffagee : ": etat}
 
 
 
