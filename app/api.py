@@ -1,6 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
+from app.service import *
 
 from app.mqtt_paho import *
 
@@ -16,8 +17,9 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
-    client.subscribe("#", qos=1)
-    client.loop_forever()
+    envoieFireBase(True)
+    # client.subscribe("#", qos=1)
+    # client.loop_forever()
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
