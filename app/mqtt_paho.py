@@ -42,6 +42,7 @@ def mqtt_client_thread():
     client.loop_forever()
 
 def startMQTT():
+    print("[HIVE MQTT] connected to server succeed")
     # Create a thread for the MQTT client
     mqtt_thread = threading.Thread(target=mqtt_client_thread)
     # Start the thread
