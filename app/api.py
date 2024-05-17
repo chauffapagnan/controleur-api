@@ -16,15 +16,19 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
-    client.loop_stop()
-    client.loop_start()
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
-    #envoieFireBase(etat)
-    client.loop_stop()
-    client.publish("CONTROL", payload=transcript(etat))
-    client.loop_start()
+    # #envoieFireBase(etat)
+    # client.loop_stop()
+    # client.publish("CONTROL", payload=transcript(etat))
+    # client.loop_start()
     return {"etatChauffagee : ": etat}
+
+# On start le service Mqtt
+startMQTT() # le service start en asynchrone
+
+
+
     
