@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
 from app.service import *
-
+from app.mqtt_paho import *
 
 app = FastAPI()
 
@@ -16,6 +16,7 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
+    mqtt_client_thread() # le service start en asynchrone
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
