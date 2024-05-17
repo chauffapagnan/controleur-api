@@ -6,10 +6,12 @@ import time
 from datetime import datetime
 import random
 
-def envoieFireBase(etat):   
+
+def initFirebase():
     cred = credentials.Certificate('app/credit.json')
     firebase_admin.initialize_app(cred)
 
+def envoieFireBase(etat):
     current_GMT = time.gmtime()
     time_stamp = calendar.timegm(current_GMT)
     date_time = datetime.fromtimestamp(time_stamp)

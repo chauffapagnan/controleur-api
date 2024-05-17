@@ -6,6 +6,7 @@ from app.service import *
 from app.mqtt_paho import *
 
 app = FastAPI()
+initFirebase()
 
 from pydantic import BaseModel
 
@@ -17,13 +18,13 @@ def transcript(etat: bool):
 
 @app.get("/")
 async def read_root():
-    envoieFireBase(True)
     # client.subscribe("#", qos=1)
     # client.loop_forever()
     return {"chauffage": "Controleur API "}
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
+    envoieFireBase(etat)
     # #envoieFireBase(etat)
     # client.loop_stop()
     # client.publish("CONTROL", payload=transcript(etat))
