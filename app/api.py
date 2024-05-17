@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
-from app.service import *
+
 from app.mqtt_paho import *
 
 app = FastAPI()

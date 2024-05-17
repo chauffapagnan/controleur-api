@@ -1,6 +1,7 @@
 import time
 import paho.mqtt.client as paho
 from paho import mqtt
+from app.service import *
 
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
@@ -16,6 +17,7 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
 
 # print message, useful for checking if it was successful
 def on_message(client, userdata, msg):
+    envoieFireBase(True)
     print("[MQTT-OK] " + "Topic : " +msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
