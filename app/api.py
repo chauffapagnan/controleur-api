@@ -1,3 +1,4 @@
+from time import sleep
 from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
@@ -25,7 +26,9 @@ async def read_root():
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
-    client.loop_forever()
+    while True:
+        sleep(5)
+        client.loop_forever()
     # envoieFireBase(etat)
     # #envoieFireBase(etat)
     # client.loop_stop()
