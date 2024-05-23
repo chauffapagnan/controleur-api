@@ -9,6 +9,8 @@ from api.mqtt_paho import *
 app = FastAPI()
 initFirebase()
 
+TIME_OUT = 50
+
 from pydantic import BaseModel
 
 def transcript(etat: bool):
@@ -37,24 +39,22 @@ async def update_etat_chauffage(etat: bool):
 
 @app.get("/cron")
 async def test_cron():
-    client.loop_stop()
     # Run for 60 seconds
-    end_time = asyncio.get_event_loop().time() + 40
+    end_time = asyncio.get_event_loop().time() + TIME_OUT
     while asyncio.get_event_loop().time() < end_time:
-        client.loop_start()
-        await asyncio.sleep(40//60)  # Sleep for 1 second
+        client.loop_read()
+        await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
 
     return {"CRON": " every 5 minutes "}
 
 
 @app.post("/cron")
 async def test_cron_post():
-    client.loop_stop()
     # Run for 40 seconds
-    end_time = asyncio.get_event_loop().time() + 40
+    end_time = asyncio.get_event_loop().time() + TIME_OUT
     while asyncio.get_event_loop().time() < end_time:
-        client.loop_start()
-        await asyncio.sleep(40//60)  # Sleep for this second
+        client.loop_read()
+        await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
 
 
     return {"CRON": "every 1 minute"}
