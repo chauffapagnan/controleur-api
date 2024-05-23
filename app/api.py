@@ -1,100 +1,42 @@
-# from time import sleep
-# from typing import Union
-# from fastapi import FastAPI
-# from models.Controller import Controller
-# from app.service import *
-#
-# from app.mqtt_paho import *
-#
-# app = FastAPI()
-# initFirebase()
-#
-# from pydantic import BaseModel
-#
-# def transcript(etat: bool):
-#     if etat:
-#         return 1
-#     else:
-#         return 0
-#
-# @app.get("/")
-# async def read_root():
-#     client.loop_read()
-#     # client.subscribe("#", qos=1)
-#     # client.loop_forever()
-#     return {"chauffage": "Controleur API "}
-#
-# @app.post("/etat_chauffage/{etat}")
-# async def update_etat_chauffage(etat: bool):
-#     while True:
-#         sleep(5)
-#         client.loop_read()
-#     # envoieFireBase(etat)
-#     # #envoieFireBase(etat)
-#     # client.loop_stop()
-#     # client.publish("CONTROL", payload=transcript(etat))
-#     # client.loop_start()
-#     #return {"etatChauffagee : ": etat}
-#
-#
-#
-#
-#
-#
-
-
-
-import time
-import paho.mqtt.client as paho
-from paho import mqtt
+from typing import Union
+from fastapi import FastAPI
+from models.Controller import Controller
 from app.service import *
 
-print("[FIREBASE] INIT Firebase")
+from app.mqtt_paho import *
+
+app = FastAPI()
 initFirebase()
 
-print("[MQTT-OK] LAUNCH")
-# setting callbacks for different events to see if it works, print the message etc.
-def on_connect(client, userdata, flags, rc, properties=None):
-    print("[MQTT-OK] CONNECT received with code %s." % rc)
+from pydantic import BaseModel
 
-# with this callback you can see if your publish was successful
-def on_publish(client, userdata, mid, properties=None, payload=None):
-    print("[MQTT-OK] mid: " + str(mid))
+def transcript(etat: bool):
+    if etat:
+        return 1
+    else:
+        return 0
 
-# print which topic was subscribed to
-def on_subscribe(client, userdata, mid, granted_qos, properties=None):
-    print("[MQTT-OK] Subscribed: " + str(mid) + " " + str(granted_qos))
+@app.get("/")
+async def read_root():
+    #client.loop_read()
+    # client.subscribe("#", qos=1)
+    # client.loop_forever()
+    return {"chauffage": "Controleur API "}
 
-# print message, useful for checking if it was successful
-def on_message(client, userdata, msg):
-    print("[MQTT-OK] " + "Topic : " +msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+
+@app.post("/etat_chauffage/{etat}")
+async def update_etat_chauffage(etat: bool):
+    envoieFireBase(etat)
+    # #envoieFireBase(etat)
+    # client.loop_stop()
+    # client.publish("CONTROL", payload=transcript(etat))
+    # client.loop_start()
+    return {"etatChauffagee : ": etat}
+
+
+@app.get("/cron")
+async def test_cron():
     envoieFireBase(True)
-    print("[FIRebase] Save into db")
+    return {"chauffage": "Controleur API "}
 
 
-# using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
-# userdata is user defined data of any type, updated by user_data_set()
-# client_id is the given name of the client
-client = paho.Client(paho.CallbackAPIVersion.VERSION2)
-client.on_connect = on_connect
-
-# enable TLS for secure connection
-client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
-# set username and password
-client.username_pw_set("controlleur", "Controlleur24")
-# connect to HiveMQ Cloud on port 8883 (default for MQTT)
-client.connect("3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud", 8883)
-
-# setting callbacks, use separate functions like above for better visibility
-client.on_subscribe = on_subscribe
-client.on_message = on_message
-client.on_publish = on_publish
-
-# subscribe to all topics of encyclopedia by using the wildcard "#"
-client.subscribe("#", qos=1)
-
-client.loop_forever()
-
-
-# loop_forever for simplicity, here you need to stop the loop manually
-# you can also use loop_start and loop_stop
