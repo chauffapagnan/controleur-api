@@ -3,7 +3,7 @@
     "app/*": {
       "maxDuration": 60,
       "memory": 1024,
-      "runtime": "@vercel/python"
+      "runtime": "python3.9"
     }
   },
   "routes": [
