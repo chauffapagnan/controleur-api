@@ -2,6 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from models.Controller import Controller
 from app.service import *
+import asyncio
 
 from app.mqtt_paho import *
 
@@ -42,5 +43,12 @@ async def test_cron():
 
 @app.post("/cron")
 async def test_cron_post():
-    client.loop_start()
-    return {"CRON": " every 5 minutes "}
+    client.loop_stop()
+    # Run for 60 seconds
+    end_time = asyncio.get_event_loop().time() + 60
+
+    while asyncio.get_event_loop().time() < end_time:
+        client.loop_start()
+        await asyncio.sleep(1)  # Sleep for 1 second
+
+    return {"CRON": "every 1 minute"}
