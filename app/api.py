@@ -44,8 +44,8 @@ async def test_cron():
 @app.post("/cron")
 async def test_cron_post():
     client.loop_stop()
-    # Run for 60 seconds
-    end_time = asyncio.get_event_loop().time() + 60
+    # Run for 4 seconds
+    end_time = asyncio.get_event_loop().time() + 4
 
     while asyncio.get_event_loop().time() < end_time:
         client.loop_start()
