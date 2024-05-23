@@ -8,7 +8,7 @@ import random
 
 
 def initFirebase():
-    cred = credentials.Certificate('app/credit.json')
+    cred = credentials.Certificate('api/credit.json')
     firebase_admin.initialize_app(cred)
 
 def envoieFireBase(etat):
