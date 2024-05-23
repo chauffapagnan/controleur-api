@@ -1,16 +1,11 @@
 {
-  "builds":[{
-    "src": "app/*",
-    "use": "@vercel/python",
-    "config": {
-      "functions": {
-        "/cron": {
-          "maxDuration": 60
-        }
-      },
-      "maxLambdaSize": "15mb"
+  "functions": {
+    "app/*": {
+      "maxDuration": 60,
+      "memory": 3009,
+      "runtime": "@vercel/python"
     }
-  }],
+  },
   "routes": [
     {
       "src":"/(.*)",
@@ -27,5 +22,6 @@
       "schedule": "11 10 * * *"
     }
   ]
+
 
 }
