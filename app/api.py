@@ -43,12 +43,12 @@ async def test_cron():
 
 @app.post("/cron")
 async def test_cron_post():
-    client.loop_stop()
     # Run for 4 seconds
-    end_time = asyncio.get_event_loop().time() + 4
+    end_time = asyncio.get_event_loop().time() + 60
 
     while asyncio.get_event_loop().time() < end_time:
         client.loop_start()
-        await asyncio.sleep(4//60)  # Sleep for 1 second
+        await asyncio.sleep(1)  # Sleep for 1 second
 
+    client.loop_stop()
     return {"CRON": "every 1 minute"}
