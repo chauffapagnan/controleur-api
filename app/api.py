@@ -40,6 +40,12 @@ async def test_cron():
     return {"CRON": " every 5 minutes "}
 
 
+@app.post("/cron")
+async def test_cron_post():
+    envoieFireBase(True)
+    return {"CRON": " every 5 minutes "}
+
+
 @app.post("/cron_qstash")
 async def test_cron_post():
     envoieFireBase(True)
