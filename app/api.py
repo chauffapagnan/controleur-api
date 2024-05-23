@@ -37,6 +37,6 @@ async def update_etat_chauffage(etat: bool):
 @app.get("/cron")
 async def test_cron():
     envoieFireBase(True)
-    return {"chauffage": "Controleur API "}
+    return {"CRON": " every 5 minutes "}
 
 
