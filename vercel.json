@@ -4,7 +4,7 @@
     "use": "@vercel/python",
     "config": {
       "functions": {
-        "app/*.py": {
+        "app/api.py": {
           "maxDuration": 60
         }
       },
