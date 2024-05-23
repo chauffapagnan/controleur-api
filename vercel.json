@@ -14,11 +14,11 @@
   "crons": [
     {
       "path": "/cron",
-      "schedule": "14 13 * * *"
+      "schedule": "54 11 * * *"
     },
     {
       "path": "/cron_qstash",
-      "schedule": "14 18 * * *"
+      "schedule": "54 9 * * *"
     }
   ]
 }
