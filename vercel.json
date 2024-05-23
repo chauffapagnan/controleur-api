@@ -20,5 +20,10 @@
       "path": "/cron",
       "schedule": "11 10 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "app/**/*": {
+      "maxDuration": 60
+    }
+  }
 }

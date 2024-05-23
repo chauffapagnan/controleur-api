@@ -37,18 +37,24 @@ async def update_etat_chauffage(etat: bool):
 
 @app.get("/cron")
 async def test_cron():
-    envoieFireBase(True)
+    # Run for 60 seconds
+    end_time = asyncio.get_event_loop().time() + 50
+
+    while asyncio.get_event_loop().time() < end_time:
+        await asyncio.sleep(0.87)  # Sleep for 1 second
+
     return {"CRON": " every 5 minutes "}
 
 
 @app.post("/cron")
 async def test_cron_post():
-    # Run for 4 seconds
-    end_time = asyncio.get_event_loop().time() + 60
+    client.loop_stop()
+    # Run for 60 seconds
+    end_time = asyncio.get_event_loop().time() + 50
 
     while asyncio.get_event_loop().time() < end_time:
         client.loop_start()
-        await asyncio.sleep(1)  # Sleep for 1 second
+        await asyncio.sleep(0.9)  # Sleep for 1 second
 
-    client.loop_stop()
+
     return {"CRON": "every 1 minute"}
