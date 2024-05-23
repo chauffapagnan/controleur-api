@@ -1,6 +1,6 @@
 {
   "functions": {
-    "app/*": {
+    "app/*.py": {
       "maxDuration": 60,
       "memory": 1024
     }
