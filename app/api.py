@@ -38,3 +38,9 @@ async def update_etat_chauffage(etat: bool):
 async def test_cron():
     envoieFireBase(True)
     return {"CRON": " every 5 minutes "}
+
+
+@app.post("/cron_qstash")
+async def test_cron_post():
+    envoieFireBase(True)
+    return {"QStash CRON": " every 5 minutes "}
