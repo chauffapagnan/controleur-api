@@ -38,6 +38,3 @@ async def update_etat_chauffage(etat: bool):
 async def test_cron():
     envoieFireBase(True)
     return {"CRON": " every 5 minutes "}
-
-
-
