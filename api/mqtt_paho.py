@@ -1,7 +1,7 @@
 import time
 import paho.mqtt.client as paho
 from paho import mqtt
-from app.service import *
+from api.service import *
 
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
