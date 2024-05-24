@@ -34,6 +34,12 @@ async def update_etat_chauffage(etat: bool):
     return {"etatChauffagee not Saved in DB : ": etat}
 
 
+@app.post("/creneau/{value}")
+async def creneau(value: str):
+    envoieFireBase(value)
+    return {"creneau not Saved in DB : ": value}
+
+
 @app.get("/cron")
 async def test_cron():
     # Run for 60 seconds
@@ -81,7 +87,7 @@ async def cron_get_energie_produite_from_chauffage():
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
     client.loop_stop()
-    client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+    client.publish("PREDION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
     client.loop_start()
 
     return {"QStash CRON Daily prediction": "every 23h"}
