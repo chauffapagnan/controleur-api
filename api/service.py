@@ -15,8 +15,16 @@ def envoieFireBase(etat):
     current_GMT = time.gmtime()
     time_stamp = calendar.timegm(current_GMT)
     date_time = datetime.fromtimestamp(time_stamp)
-    db=firestore.client()
-    db.collection('Controler').add({'date':date_time,'etat':etat})
- 
+    db = firestore.client()
+    db.collection('Controler').add({'date': date_time, 'etat': etat})
+
+def envoieFireBaseEnergieProduite(energie):
+    current_GMT = time.gmtime()
+    time_stamp = calendar.timegm(current_GMT)
+    date_time = datetime.fromtimestamp(time_stamp)
+    db = firestore.client()
+    db.collection('energie_produite_from_chauffage').add({'date': date_time, 'value': energie})
+
+
 
     

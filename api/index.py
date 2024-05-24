@@ -1,9 +1,6 @@
-from typing import Union
 from fastapi import FastAPI
-from models.Controller import Controller
-from api.service import *
 import asyncio
-
+from api.mqtt_topic import *
 from api.mqtt_paho import *
 
 app = FastAPI()
@@ -11,13 +8,13 @@ initFirebase()
 
 TIME_OUT = 50
 
-from pydantic import BaseModel
 
 def transcript(etat: bool):
     if etat:
         return 1
     else:
         return 0
+
 
 @app.get("/")
 async def read_root():
@@ -29,12 +26,12 @@ async def read_root():
 
 @app.post("/etat_chauffage/{etat}")
 async def update_etat_chauffage(etat: bool):
-    envoieFireBase(etat)
+    # envoieFireBase(etat)
     # #envoieFireBase(etat)
     # client.loop_stop()
     # client.publish("CONTROL", payload=transcript(etat))
     # client.loop_start()
-    return {"etatChauffagee : ": etat}
+    return {"etatChauffagee not Saved in DB : ": etat}
 
 
 @app.get("/cron")
@@ -45,7 +42,7 @@ async def test_cron():
         client.loop_read()
         await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
 
-    return {"CRON": " every 5 minutes "}
+    return {"CRON": "vercel cron"}
 
 
 @app.post("/cron")
@@ -56,5 +53,23 @@ async def test_cron_post():
         client.loop_read()
         await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
 
+    return {"CRON": "test cron QStash"}
 
-    return {"CRON": "every 1 minute"}
+
+# 10h
+# 13h
+# 16h
+# 20h
+# Chaque Matin MIDI et SOIR, on va chercher l'état du chauffage (Energie produite, etc)
+# Le cron est géré par notre service QStash en ligne
+@app.post("/cron_get_energie_produite_from_chauffage")
+async def cron_get_energie_produite_from_chauffage():
+    client.publish(ENERGY_ASK, payload=1)
+    end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
+    while asyncio.get_event_loop().time() < end_time:
+        client.loop_read()
+        await asyncio.sleep((TIME_OUT-10)//60)  # Sleep for this second
+
+    return {"QStash CRON": "every 10h 13h 16h 20h"}
+
+
