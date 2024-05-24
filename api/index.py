@@ -73,3 +73,13 @@ async def cron_get_energie_produite_from_chauffage():
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
 
+# 23h
+# On va envoyer selon notre calcul la prédiction de l'energie
+# Le cron est géré par notre service QStash en ligne
+@app.post("/cron_send_daily_prediction_to_app")
+async def cron_send_daily_prediction_to_app():
+    client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+
+    return {"QStash CRON Daily prediction": "every 23h"}
+
+
