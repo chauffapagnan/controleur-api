@@ -66,10 +66,10 @@ async def test_cron_post():
 async def cron_get_energie_produite_from_chauffage():
     client.loop_write()
     client.publish(ENERGY_ASK, payload=1)
-    end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
-    while asyncio.get_event_loop().time() < end_time:
-        client.loop_read()
-        await asyncio.sleep((TIME_OUT-10)//60)  # Sleep for this second
+    # end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
+    # while asyncio.get_event_loop().time() < end_time:
+    #     client.loop_read()
+    #     await asyncio.sleep((TIME_OUT-10)//60)  # Sleep for this second
 
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
