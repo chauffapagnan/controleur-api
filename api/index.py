@@ -64,8 +64,8 @@ async def test_cron_post():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_get_energie_produite_from_chauffage")
 async def cron_get_energie_produite_from_chauffage():
-    client.publish(ENERGY_ASK, payload=1)
     client.loop_write()
+    client.publish(ENERGY_ASK, payload=1)
     end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
     while asyncio.get_event_loop().time() < end_time:
         client.loop_read()
@@ -79,8 +79,8 @@ async def cron_get_energie_produite_from_chauffage():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
-    client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
     client.loop_write()
+    client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
 
     return {"QStash CRON Daily prediction": "every 23h"}
 
