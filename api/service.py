@@ -11,6 +11,7 @@ def initFirebase():
     cred = credentials.Certificate('api/credit.json')
     firebase_admin.initialize_app(cred)
 
+
 def envoieFireBase(etat):
     current_GMT = time.gmtime()
     time_stamp = calendar.timegm(current_GMT)
@@ -48,6 +49,7 @@ def envoieFireBaseCreneau(time_string: str):
         'enabled': True,
         'created_at': date_time,
     })
+
 
 # une fonction qui va récupérer la donnée parmi la collection creneau dont "enabled = True"
 def get_enabled_creneau():
@@ -94,7 +96,6 @@ def check_heating_status():
     else:
         print("Aucun créneau activé trouvé.")
         return False, False
-
 
 
 def envoieFireBaseEnergieProduite(energie):
