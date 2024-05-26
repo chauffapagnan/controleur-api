@@ -45,7 +45,7 @@ async def test_cron():
     # Run for 60 seconds
     end_time = asyncio.get_event_loop().time() + TIME_OUT
     while asyncio.get_event_loop().time() < end_time:
-        client.loop_read()
+        client.loop()
         await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
 
     return {"CRON": "vercel cron"}
@@ -56,7 +56,7 @@ async def test_cron_post():
     # Run for 40 seconds
     end_time = asyncio.get_event_loop().time() + TIME_OUT
     while asyncio.get_event_loop().time() < end_time:
-        client.loop_read()
+        client.loop()
         await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
 
     return {"CRON": "test cron QStash"}
@@ -70,13 +70,12 @@ async def test_cron_post():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_get_energie_produite_from_chauffage")
 async def cron_get_energie_produite_from_chauffage():
-    client.loop_stop()
     client.publish("DATA/ENERGY/ASK", payload=1)
-    client.loop_start()
-    # end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
-    # while asyncio.get_event_loop().time() < end_time:
-    #     client.loop_read()
-    #     await asyncio.sleep((TIME_OUT-10)//60)  # Sleep for this second
+    client.loop_write()
+    end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+    while asyncio.get_event_loop().time() < end_time:
+         client.loop()
+         await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
@@ -86,9 +85,12 @@ async def cron_get_energie_produite_from_chauffage():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
-    client.loop_stop()
     client.publish("PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
-    client.loop_start()
+    client.loop_write()
+    end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+    while asyncio.get_event_loop().time() < end_time:
+         client.loop()
+         await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
     return {"QStash CRON Daily prediction": "every 23h"}
 
