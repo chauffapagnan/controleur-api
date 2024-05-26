@@ -35,6 +35,7 @@ def on_message(client, userdata, msg):
 # client_id is the given name of the client
 client = paho.Client(paho.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
+time.sleep(1)
 
 # enable TLS for secure connection
 client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
@@ -42,15 +43,15 @@ client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
 client.username_pw_set("controlleur", "Controlleur24")
 # connect to HiveMQ Cloud on port 8883 (default for MQTT)
 client.connect("3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud", 8883)
-
+time.sleep(1)
 # setting callbacks, use separate functions like above for better visibility
 client.on_subscribe = on_subscribe
 client.on_message = on_message
 client.on_publish = on_publish
-
+time.sleep(1)
 # subscribe to all topics of encyclopedia by using the wildcard "#"
 client.subscribe("#", qos=1)
-
+time.sleep(1)
 
 # loop_forever for simplicity, here you need to stop the loop manually
 # you can also use loop_start and loop_stop

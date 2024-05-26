@@ -41,22 +41,31 @@ async def creneau(value: str):
 
 @app.get("/cron")
 async def test_cron():
-    # Run for 60 seconds
-    end_time = asyncio.get_event_loop().time() + TIME_OUT
-    while asyncio.get_event_loop().time() < end_time:
-        client.loop()
-        await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
+    try :
+        # Run for 60 seconds
+        end_time = asyncio.get_event_loop().time() + TIME_OUT
+        while asyncio.get_event_loop().time() < end_time:
+            client.loop()
+            await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
 
+    except:
+        print("WRONG : Quelque chose s'est mal passé")
+        pass
     return {"CRON": "vercel cron"}
 
 
 @app.post("/cron")
 async def test_cron_post():
-    # Run for 40 seconds
-    end_time = asyncio.get_event_loop().time() + TIME_OUT
-    while asyncio.get_event_loop().time() < end_time:
-        client.loop()
-        await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
+    try:
+        # Run for 40 seconds
+        end_time = asyncio.get_event_loop().time() + TIME_OUT
+        while asyncio.get_event_loop().time() < end_time:
+            client.loop()
+            await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
+
+    except:
+        print("WRONG : Quelque chose s'est mal passé")
+        pass
 
     return {"CRON": "test cron QStash"}
 
@@ -69,12 +78,17 @@ async def test_cron_post():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_get_energie_produite_from_chauffage")
 async def cron_get_energie_produite_from_chauffage():
-    client.publish("DATA/ENERGY/ASK", payload=1)
-    client.loop_write()
-    end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
-    while asyncio.get_event_loop().time() < end_time:
-         client.loop()
-         await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+    try:
+        client.publish("DATA/ENERGY/ASK", payload=1)
+        client.loop_write()
+        end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+        while asyncio.get_event_loop().time() < end_time:
+             client.loop()
+             await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+
+    except:
+        print("WRONG : Quelque chose s'est mal passé")
+        pass
 
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
@@ -84,13 +98,45 @@ async def cron_get_energie_produite_from_chauffage():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
-    client.publish("PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
-    client.loop_write()
-    end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
-    while asyncio.get_event_loop().time() < end_time:
-         client.loop()
-         await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+    try:
+        client.publish("DATA/PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+        client.loop_write()
+        end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+        while asyncio.get_event_loop().time() < end_time:
+             client.loop()
+             await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
+    except:
+        print("WRONG : Quelque chose s'est mal passé")
+        pass
     return {"QStash CRON Daily prediction": "every 23h"}
+
+
+# chaque 10 minute
+# Le cron est géré par notre service QStash en ligne
+@app.post("/cron_routine_allumage_with_creneau")
+async def cron_routine_allumage_with_creneau():
+
+    try:
+        if check_heating_status() == (False, False):
+            pass
+        else:
+            if check_heating_status() == (True, False):
+                client.publish("CONTROL/ONOFF", payload=1)  # on active le Chauffage
+
+            elif check_heating_status() == (False, True):
+                client.publish("CONTROL/ONOFF", payload=0)  # on éteint le Chauffage
+
+            client.loop_write()
+            end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+            while asyncio.get_event_loop().time() < end_time:
+                client.loop()
+                await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+
+    except:
+        print("WRONG : Quelque chose s'est mal passé")
+        pass
+
+    return {"QStash CRON Routine allumage": "every 10 minutes"}
 
 
