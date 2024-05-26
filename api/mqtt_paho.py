@@ -22,13 +22,12 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
 
 # print message, useful for checking if it was successful
 def on_message(client, userdata, msg):
-    content = str(msg.payload).decode('utf-8')
     if msg.topic == ENERGY_RESP:
-        envoieFireBaseEnergieProduite(float(content))
+        envoieFireBaseEnergieProduite(str(msg.payload))
     elif msg.topic == ACK:  # le ONOFF
-        envoieFireBase(content)
+        envoieFireBase(str(msg.payload))
 
-    print("[MQTT-OK] " + "Topic : " + msg.topic + " " + str(msg.qos) + " " + content)
+    print("[MQTT-OK] " + "Topic : " + msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
 # using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
