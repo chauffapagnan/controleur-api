@@ -8,7 +8,6 @@ initFirebase()
 
 TIME_OUT = 50
 
-
 def transcript(etat: bool):
     if etat:
         return 1
@@ -36,7 +35,7 @@ async def update_etat_chauffage(etat: bool):
 
 @app.post("/creneau/{value}")
 async def creneau(value: str):
-    envoieFireBase(value)
+    envoieFireBaseCreneau(value)
     return {"creneau Saved in DB : ": value}
 
 
