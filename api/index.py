@@ -71,7 +71,7 @@ async def test_cron_post():
 @app.post("/cron_get_energie_produite_from_chauffage")
 async def cron_get_energie_produite_from_chauffage():
     client.loop_stop()
-    client.publish(ENERGY_ASK, payload=1)
+    client.publish("DATA/ENERGY/ASK", payload=1)
     client.loop_start()
     # end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
     # while asyncio.get_event_loop().time() < end_time:
@@ -87,7 +87,7 @@ async def cron_get_energie_produite_from_chauffage():
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
     client.loop_stop()
-    client.publish("PREDION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+    client.publish("PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
     client.loop_start()
 
     return {"QStash CRON Daily prediction": "every 23h"}
