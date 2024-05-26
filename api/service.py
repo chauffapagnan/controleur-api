@@ -18,6 +18,26 @@ def envoieFireBase(etat):
     db = firestore.client()
     db.collection('Controler').add({'date': date_time, 'etat': etat})
 
+
+def envoieFireBaseCreneau(time_string: str):
+    current_GMT = time.gmtime()
+    time_stamp = calendar.timegm(current_GMT)
+    date_time = datetime.fromtimestamp(time_stamp)
+
+    start_hour, end_hour = time_string.split('-')
+    start_hour, start_minute = start_hour.split(':')
+    end_hour, end_minute = end_hour.split(':')
+
+    db = firestore.client()
+    db.collection('creneau').add({
+        'start_hour': start_hour,
+        'start_minute': start_hour,
+        'end_hour': end_hour,
+        'end_minute': end_hour,
+        'enabled': True,
+        'created_at': date_time,
+    })
+
 def envoieFireBaseEnergieProduite(energie):
     current_GMT = time.gmtime()
     time_stamp = calendar.timegm(current_GMT)

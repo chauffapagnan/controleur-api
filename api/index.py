@@ -37,7 +37,7 @@ async def update_etat_chauffage(etat: bool):
 @app.post("/creneau/{value}")
 async def creneau(value: str):
     envoieFireBase(value)
-    return {"creneau not Saved in DB : ": value}
+    return {"creneau Saved in DB : ": value}
 
 
 @app.get("/cron")
@@ -70,12 +70,12 @@ async def test_cron_post():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_get_energie_produite_from_chauffage")
 async def cron_get_energie_produite_from_chauffage():
-    client.publish(ENERGY_ASK, payload=1)
+    client.publish("DATA/ENERGY/ASK", payload=1)
     client.loop_write()
-    end_time = asyncio.get_event_loop().time() + TIME_OUT-10  # 10 seconde pour le temps du publish
+    end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
     while asyncio.get_event_loop().time() < end_time:
          client.loop()
-         await asyncio.sleep((TIME_OUT-10)//60)  # Sleep for this second
+         await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
@@ -85,7 +85,7 @@ async def cron_get_energie_produite_from_chauffage():
 # Le cron est géré par notre service QStash en ligne
 @app.post("/cron_send_daily_prediction_to_app")
 async def cron_send_daily_prediction_to_app():
-    client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+    client.publish("PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
     client.loop_write()
     end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
     while asyncio.get_event_loop().time() < end_time:
