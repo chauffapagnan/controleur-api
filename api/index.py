@@ -128,14 +128,15 @@ async def cron_send_daily_prediction_to_app():
 async def cron_routine_allumage_with_creneau():
 
     try:
-        if check_heating_status() == (False, False):
+        check_time = check_heating_status()
+        if check_time == RIEN:
             pass
         else:
             client.connect(mqtt_host_name, mqtt_host_port)
-            if check_heating_status() == (True, False):
+            if check_time == ALLUME:
                 client.publish(ONOFF, payload=1)  # on active le Chauffage
 
-            elif check_heating_status() == (False, True):
+            elif check_time == ETEINS:
                 client.publish(ONOFF, payload=0)  # on éteint le Chauffage
 
             # client.loop_write()
@@ -145,6 +146,8 @@ async def cron_routine_allumage_with_creneau():
                 await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
             client.disconnect()
+            editFireBaseEnabledCreneau() # On met à False enabled du creneau
+
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")
@@ -265,14 +268,15 @@ async def cron_send_daily_prediction_to_app_test():
 async def cron_routine_allumage_with_creneau_test():
 
     try:
-        if check_heating_status() == (False, False):
+        check_time = check_heating_status()
+        if check_time == RIEN:
             pass
         else:
             client.connect(mqtt_host_name, mqtt_host_port)
-            if check_heating_status() == (True, False):
+            if check_time == ALLUME:
                 client.publish(ONOFF, payload=1)  # on active le Chauffage
 
-            elif check_heating_status() == (False, True):
+            elif check_time == ETEINS:
                 client.publish(ONOFF, payload=0)  # on éteint le Chauffage
 
             # client.loop_write()
@@ -282,6 +286,8 @@ async def cron_routine_allumage_with_creneau_test():
                 await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
 
             client.disconnect()
+            editFireBaseEnabledCreneau() # On met à False enabled du creneau
+
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")

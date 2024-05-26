@@ -6,6 +6,10 @@ import time
 from datetime import datetime
 import random
 
+ALLUME = 1
+ETEINS = 0
+RIEN = None
+
 
 def initFirebase():
     cred = credentials.Certificate('api/credit.json')
@@ -19,6 +23,18 @@ def envoieFireBase(etat):
     db = firestore.client()
     db.collection('Controler').add({'date': date_time, 'etat': etat})
 
+
+def editFireBaseEnabledCreneau():
+    db = firestore.client()
+
+    # On Récupère toutes les entrées existantes
+    creneau_ref = db.collection('creneau')
+    docs = creneau_ref.stream()
+
+    # On Met à jour chaque entrée pour définir enabled à false
+    for doc in docs:
+        doc_ref = db.collection('creneau').document(doc.id)
+        doc_ref.update({'enabled': False})
 
 def envoieFireBaseCreneau(time_string: str):
     current_GMT = time.gmtime()
@@ -84,18 +100,36 @@ def check_heating_status():
         end_minute = int(creneau['end_minute'])
 
         # Comparer les heures et minutes
-        if current_hour == start_hour and current_minute == start_minute:
+        if current_hour == start_hour:
+            if current_minute >= start_minute:
+                print("Chauffage allume toi !")
+                return ALLUME
+            else:
+                print("On ne fait rien")
+                return RIEN
+
+        if current_hour == end_hour:
+            if current_minute >= end_minute:
+                print("Chauffage éteins toi !")
+                return ETEINS
+            else:
+                print("On ne fait rien")
+                return ALLUME
+
+        if current_hour > start_hour and current_hour < end_hour:
             print("Chauffage allume toi !")
-            return True, False
-        elif current_hour == end_hour and current_minute == end_minute:
+            return ALLUME
+
+        if current_hour < start_hour:
+            print("On ne fait rien")
+            return RIEN
+        if current_hour > end_hour:
             print("Chauffage éteins toi !")
-            return False, True
-        else:
-            print("Routine activation/désactivation chauffage => On ne fait rien")
-            return False, False
+            return ETEINS
+
     else:
         print("Aucun créneau activé trouvé.")
-        return False, False
+        return RIEN
 
 
 def envoieFireBaseEnergieProduite(energie):
