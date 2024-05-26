@@ -1,3 +1,10 @@
+
+mqtt_host_name = "3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud"
+mqtt_host_username = "controlleur"
+mqtt_host_password = "Controlleur24"
+mqtt_host_port = 8883
+
+
 # Pour activer/désactiver le chauffage depuis le chauffage
 ACK = "CONTROL/ACK"
 # Pour activer/désactiver le chauffage

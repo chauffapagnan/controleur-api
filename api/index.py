@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import asyncio
-from api.mqtt_topic import *
+from api.mqtt_config import *
 from api.mqtt_paho import *
 
 app = FastAPI()
@@ -48,8 +48,8 @@ async def test_cron():
             client.loop()
             await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
 
-    except:
-        print("WRONG : Quelque chose s'est mal passé")
+    except Exception as e:
+        print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
     return {"CRON": "vercel cron"}
 
@@ -63,8 +63,8 @@ async def test_cron_post():
             client.loop()
             await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
 
-    except:
-        print("WRONG : Quelque chose s'est mal passé")
+    except Exception as e:
+        print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
 
     return {"CRON": "test cron QStash"}
@@ -80,8 +80,8 @@ async def test_cron_post():
 async def cron_get_energie_produite_from_chauffage():
     try:
         # Connect to MQTT broker
-        client.connect("3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud", 8883)
-        client.publish("DATA/ENERGY/ASK", payload=1)
+        client.connect(mqtt_host_name, mqtt_host_port)
+        client.publish(ENERGY_ASK, payload=1)
         end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
         while asyncio.get_event_loop().time() < end_time:
              client.loop()
@@ -89,8 +89,8 @@ async def cron_get_energie_produite_from_chauffage():
 
         client.disconnect()
 
-    except:
-        print("WRONG : Quelque chose s'est mal passé")
+    except Exception as e:
+        print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
 
     return {"QStash CRON": "every 10h 13h 16h 20h"}
@@ -103,8 +103,8 @@ async def cron_get_energie_produite_from_chauffage():
 async def cron_send_daily_prediction_to_app():
     try:
         # Connect to MQTT broker
-        client.connect("3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud", 8883)
-        client.publish("DATA/PREDICTION", payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+        client.connect(mqtt_host_name, mqtt_host_port)
+        client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
         end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
         while asyncio.get_event_loop().time() < end_time:
              client.loop()
@@ -113,8 +113,8 @@ async def cron_send_daily_prediction_to_app():
         # Disconnect from MQTT broker
         client.disconnect()
 
-    except:
-        print("WRONG : Quelque chose s'est mal passé")
+    except Exception as e:
+        print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
     return {"QStash CRON Daily prediction": "every 23h"}
 
@@ -128,12 +128,12 @@ async def cron_routine_allumage_with_creneau():
         if check_heating_status() == (False, False):
             pass
         else:
-            client.connect("3f68ce49b7714ea2ac988e755d35fd99.s1.eu.hivemq.cloud", 8883)
+            client.connect(mqtt_host_name, mqtt_host_port)
             if check_heating_status() == (True, False):
-                client.publish("CONTROL/ONOFF", payload=1)  # on active le Chauffage
+                client.publish(ONOFF, payload=1)  # on active le Chauffage
 
             elif check_heating_status() == (False, True):
-                client.publish("CONTROL/ONOFF", payload=0)  # on éteint le Chauffage
+                client.publish(ONOFF, payload=0)  # on éteint le Chauffage
 
             # client.loop_write()
             end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
@@ -143,10 +143,13 @@ async def cron_routine_allumage_with_creneau():
 
             client.disconnect()
 
-    except:
-        print("WRONG : Quelque chose s'est mal passé")
+    except Exception as e:
+        print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
 
     return {"QStash CRON Routine allumage": "every 10 minutes"}
 
 
+@app.get("/get_prediction")
+async def get_prediction():
+    return "{'matin': 16, 'midi': 18, 'soir': 15}"
