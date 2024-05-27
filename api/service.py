@@ -98,6 +98,11 @@ def check_heating_status():
         start_minute = int(creneau['start_minute'])
         end_hour = int(creneau['end_hour'])
         end_minute = int(creneau['end_minute'])
+        print("current minute = ", current_minute)
+        print("current hour = ", current_hour)
+        print("start hour = ", start_hour)
+        print("start minute = ", start_minute)
+
 
         # Comparer les heures et minutes
         if current_hour == start_hour:
