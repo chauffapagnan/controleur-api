@@ -172,8 +172,7 @@ async def cron_routine_allumage_with_creneau():
 
 @app.get("/get_prediction")
 async def get_prediction_test():
-    return ("{'Lundi': 19.89, 'Mardi': 19.616666666666664, 'Mercredi': 19.556666666666665, 'Jeudi': 18.33, 'Vendredi': "
-            "18.49, 'Samedi': 18.49, 'Dimanche': 19.91}")
+    return "{'Lundi': 19.89, 'Mardi': 19.616666666666664, 'Mercredi': 19.556666666666665, 'Jeudi': 18.33, 'Vendredi': 18.49, 'Samedi': 18.49, 'Dimanche': 19.91}"
 
 
 
