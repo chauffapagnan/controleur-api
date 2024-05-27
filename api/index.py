@@ -182,7 +182,7 @@ async def cron_routine_allumage_with_creneau():
 
 
 @app.get("/get_prediction")
-async def get_prediction_test():
+async def get_prediction():
     return get_weekly_prediction()
 
 
