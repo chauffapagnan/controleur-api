@@ -50,12 +50,14 @@ async def creneau(value: str):
 
 @app.get("/cron")
 async def test_cron():
-    try :
+    try:
+        client.connect(mqtt_host_name, mqtt_host_port)
         # Run for 60 seconds
         end_time = asyncio.get_event_loop().time() + TIME_OUT
         while asyncio.get_event_loop().time() < end_time:
             client.loop()
             await asyncio.sleep(TIME_OUT//60)  # Sleep for 1 second
+        client.disconnect()
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")
@@ -66,11 +68,13 @@ async def test_cron():
 @app.post("/cron")
 async def test_cron_post():
     try:
+        client.connect(mqtt_host_name, mqtt_host_port)
         # Run for 40 seconds
         end_time = asyncio.get_event_loop().time() + TIME_OUT
         while asyncio.get_event_loop().time() < end_time:
             client.loop()
             await asyncio.sleep(TIME_OUT//60)  # Sleep for this second
+        client.disconnect()
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")
@@ -105,6 +109,7 @@ async def cron_get_energie_produite_from_chauffage():
     return {"QStash CRON": "every 10h 13h 16h 20h"}
 
 
+static_pred = "{'Lundi': 19.89, 'Mardi': 19.616666666666664, 'Mercredi': 19.556666666666665, 'Jeudi': 18.33, 'Vendredi': 18.49, 'Samedi': 18.49, 'Dimanche': 19.91}"
 # 23h
 # On va envoyer selon notre calcul la prédiction de l'energie
 # Le cron est géré par notre service QStash en ligne
@@ -113,7 +118,7 @@ async def cron_send_daily_prediction_to_app():
     try:
         # Connect to MQTT broker
         client.connect(mqtt_host_name, mqtt_host_port)
-        client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+        client.publish(PREDICTION, payload=static_pred)
         end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
         while asyncio.get_event_loop().time() < end_time:
              client.loop()
@@ -178,7 +183,7 @@ async def cron_routine_allumage_with_creneau():
 
 @app.get("/get_prediction")
 async def get_prediction_test():
-    return "{'Lundi': 19.89, 'Mardi': 19.616666666666664, 'Mercredi': 19.556666666666665, 'Jeudi': 18.33, 'Vendredi': 18.49, 'Samedi': 18.49, 'Dimanche': 19.91}"
+    return static_pred
 
 
 
@@ -284,7 +289,7 @@ async def cron_send_daily_prediction_to_app_test():
     try:
         # Connect to MQTT broker
         client.connect(mqtt_host_name, mqtt_host_port)
-        client.publish(PREDICTION, payload="{'matin': 16, 'midi': 18, 'soir': 15}")
+        client.publish(PREDICTION, payload=static_pred)
         end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
         while asyncio.get_event_loop().time() < end_time:
             client.loop()
@@ -312,19 +317,19 @@ async def cron_routine_allumage_with_creneau_test():
             client.connect(mqtt_host_name, mqtt_host_port)
             if check_time == ALLUME:
                 client.publish(ONOFF, payload=1)  # on active le Chauffage
+                editFireBaseEnabledCreneauStart()  # On met à False enabled du creneau
 
             elif check_time == ETEINS:
                 client.publish(ONOFF, payload=0)  # on éteint le Chauffage
+                editFireBaseEnabledCreneauEnd()  # On met à False enabled du creneau
 
             # client.loop_write()
-            end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+            end_time = asyncio.get_event_loop().time() + TIME_OUT-30  # 10 seconde pour le temps du publish
             while asyncio.get_event_loop().time() < end_time:
                 client.loop()
-                await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+                await asyncio.sleep((TIME_OUT-30)//60)  # Sleep for this second
 
             client.disconnect()
-            editFireBaseEnabledCreneau() # On met à False enabled du creneau
-
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")
