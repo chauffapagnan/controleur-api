@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 import asyncio
-from api.mqtt_config import *
+# from api.mqtt_config import *
 from api.mqtt_paho import *
-from api.prediction.meteo_weekly import *
-from api.prediction.RandomForest_energy_prediction import *
+# from api.prediction.meteo_weekly import *
+# from api.prediction.RandomForest_energy_prediction import *
 
 app = FastAPI()
 initFirebase()
@@ -158,16 +158,16 @@ async def cron_routine_allumage_with_creneau():
 
 
 # 22h chaque Weekend
-@app.post("/cron_meteo_week")
-async def cron_meteo_week():
-    fetch_and_filter_meteo_data()
-    return "Donnée Meteo Week OKay updated"
-
-## App mobile l'appel
-@app.get("/get_prediction")
-async def get_prediction():
-    print("Making ML Computing")
-    return ML_modeling()
+# @app.post("/cron_meteo_week")
+# async def cron_meteo_week():
+#     fetch_and_filter_meteo_data()
+#     return "Donnée Meteo Week OKay updated"
+#
+# ## App mobile l'appel
+# @app.get("/get_prediction")
+# async def get_prediction():
+#     print("Making ML Computing")
+#     return ML_modeling()
 
 
 
