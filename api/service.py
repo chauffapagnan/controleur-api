@@ -90,7 +90,7 @@ def check_heating_status():
     if creneau:
         # Récupérer l'heure et la minute actuelle
         now = datetime.now()
-        current_hour = now.hour
+        current_hour = (now.hour + 2) % 24
         current_minute = now.minute
 
         # Récupérer les heures et minutes de début et de fin du créneau
@@ -119,7 +119,7 @@ def check_heating_status():
                 return ETEINS
             else:
                 print("On ne fait rien")
-                return ALLUME
+                return RIEN
 
         if current_hour > start_hour and current_hour < end_hour:
             print("Chauffage allume toi !")
