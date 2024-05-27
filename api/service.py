@@ -190,7 +190,7 @@ def get_weekly_prediction():
 
     # Extraire et retourner le document
     for doc in results:
-        return doc.to_dict()
+        return doc.to_dict()['value']
 
     return None
 
