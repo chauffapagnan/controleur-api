@@ -43,6 +43,10 @@ async def creneau(value: str):
     envoieFireBaseCreneau(value)
     return {"creneau Saved in DB : ": value}
 
+@app.get("/get_creneau")
+async def creneau(value: str):
+    return get_enabled_creneau()
+
 
 @app.get("/cron")
 async def test_cron():
@@ -137,18 +141,20 @@ async def cron_routine_allumage_with_creneau():
             client.connect(mqtt_host_name, mqtt_host_port)
             if check_time == ALLUME:
                 client.publish(ONOFF, payload=1)  # on active le Chauffage
+                editFireBaseEnabledCreneauStart()  # On met à False enabled du creneau
 
             elif check_time == ETEINS:
                 client.publish(ONOFF, payload=0)  # on éteint le Chauffage
+                editFireBaseEnabledCreneauEnd()  # On met à False enabled du creneau
 
             # client.loop_write()
-            end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
+            end_time = asyncio.get_event_loop().time() + TIME_OUT-30  # 30 seconde pour le temps du publish
             while asyncio.get_event_loop().time() < end_time:
                 client.loop()
-                await asyncio.sleep((TIME_OUT-20)//60)  # Sleep for this second
+                await asyncio.sleep((TIME_OUT-30)//60)  # Sleep for this second
 
             client.disconnect()
-            editFireBaseEnabledCreneau() # On met à False enabled du creneau
+
 
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")

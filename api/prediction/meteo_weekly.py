@@ -56,3 +56,6 @@ def fetch_and_filter_meteo_data():
 
     filtered_df.to_csv('api/prediction/output/test.csv', index=False)
 
+
+
+

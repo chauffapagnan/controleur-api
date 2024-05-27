@@ -24,7 +24,7 @@ def envoieFireBase(etat):
     db.collection('Controler').add({'date': date_time, 'etat': etat})
 
 
-def editFireBaseEnabledCreneau():
+def editFireBaseEnabledCreneauStart():
     db = firestore.client()
 
     # On Récupère toutes les entrées existantes
@@ -34,7 +34,20 @@ def editFireBaseEnabledCreneau():
     # On Met à jour chaque entrée pour définir enabled à false
     for doc in docs:
         doc_ref = db.collection('creneau').document(doc.id)
-        doc_ref.update({'enabled': False})
+        doc_ref.update({'enabled_start': False})
+
+
+def editFireBaseEnabledCreneauEnd():
+    db = firestore.client()
+
+    # On Récupère toutes les entrées existantes
+    creneau_ref = db.collection('creneau')
+    docs = creneau_ref.stream()
+
+    # On Met à jour chaque entrée pour définir enabled à false
+    for doc in docs:
+        doc_ref = db.collection('creneau').document(doc.id)
+        doc_ref.update({'enabled': False, 'enabled_start': False})
 
 def envoieFireBaseCreneau(time_string: str):
     current_GMT = time.gmtime()
@@ -54,7 +67,7 @@ def envoieFireBaseCreneau(time_string: str):
     # On Met à jour chaque entrée pour définir enabled à false
     for doc in docs:
         doc_ref = db.collection('creneau').document(doc.id)
-        doc_ref.update({'enabled': False})
+        doc_ref.update({'enabled_start': False, 'enabled': False})
 
     # On Ajoute la nouvelle entrée
     creneau_ref.add({
@@ -62,6 +75,7 @@ def envoieFireBaseCreneau(time_string: str):
         'start_minute': start_minute,
         'end_hour': end_hour,
         'end_minute': end_minute,
+        'enabled_start': True,
         'enabled': True,
         'created_at': date_time,
     })
@@ -98,14 +112,11 @@ def check_heating_status():
         start_minute = int(creneau['start_minute'])
         end_hour = int(creneau['end_hour'])
         end_minute = int(creneau['end_minute'])
-        print("current minute = ", current_minute)
-        print("current hour = ", current_hour)
-        print("start hour = ", start_hour)
-        print("start minute = ", start_minute)
 
+        enabled_start = bool(creneau['enabled_start'])
 
         # Comparer les heures et minutes
-        if current_hour == start_hour:
+        if (current_hour == start_hour) and enabled_start:
             if current_minute >= start_minute:
                 print("Chauffage allume toi !")
                 return ALLUME
@@ -121,7 +132,7 @@ def check_heating_status():
                 print("On ne fait rien")
                 return RIEN
 
-        if current_hour > start_hour and current_hour < end_hour:
+        if (current_hour > start_hour and current_hour < end_hour) and enabled_start:
             print("Chauffage allume toi !")
             return ALLUME
 
