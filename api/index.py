@@ -340,7 +340,7 @@ async def cron_routine_allumage_with_creneau_test():
 
 @app.get("/get_prediction_test")
 async def get_prediction_test():
-    return "{'matin': 16, 'midi': 18, 'soir': 15}"
+    return static_pred
 
 
 
