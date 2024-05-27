@@ -1,12 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-import time
+from sklearn.ensemble import RandomForestRegressor
 
 
 src_train = "api/prediction/output/train.csv"
