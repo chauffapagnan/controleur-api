@@ -2,6 +2,8 @@ from fastapi import FastAPI
 import asyncio
 from api.mqtt_config import *
 from api.mqtt_paho import *
+from api.prediction.meteo_weekly import *
+from api.prediction.RandomForest_energy_prediction import *
 
 app = FastAPI()
 initFirebase()
@@ -148,7 +150,6 @@ async def cron_routine_allumage_with_creneau():
             client.disconnect()
             editFireBaseEnabledCreneau() # On met à False enabled du creneau
 
-
     except Exception as e:
         print(f"WRONG : Quelque chose s'est mal passé - {e}")
         pass
@@ -156,15 +157,40 @@ async def cron_routine_allumage_with_creneau():
     return {"QStash CRON Routine allumage": "every 10 minutes"}
 
 
+# 22h chaque Weekend
+@app.post("/cron_meteo_week")
+async def cron_meteo_week():
+    fetch_and_filter_meteo_data()
+
+## App mobile l'appel
 @app.get("/get_prediction")
 async def get_prediction():
-    return "{'matin': 16, 'midi': 18, 'soir': 15}"
+    return ML_modeling()
+
+
+
+
 
 
 
 
 """
-LA PARTIE DE TEST
+"""
+"""
+"""
+"""
+"""
+"""
+"""
+"""
+""" ## LA PARTIE DE TEST
+"""
+"""
+"""
+"""
+"""
+"""
+"""
 """
 
 
