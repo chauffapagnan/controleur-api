@@ -118,7 +118,7 @@ async def cron_send_daily_prediction_to_app():
     try:
         # Connect to MQTT broker
         client.connect(mqtt_host_name, mqtt_host_port)
-        client.publish(PREDICTION, payload=static_pred)
+        client.publish(PREDICTION, payload=get_weekly_prediction())
         end_time = asyncio.get_event_loop().time() + TIME_OUT-20  # 10 seconde pour le temps du publish
         while asyncio.get_event_loop().time() < end_time:
              client.loop()
@@ -183,7 +183,7 @@ async def cron_routine_allumage_with_creneau():
 
 @app.get("/get_prediction")
 async def get_prediction_test():
-    return static_pred
+    return get_weekly_prediction()
 
 
 

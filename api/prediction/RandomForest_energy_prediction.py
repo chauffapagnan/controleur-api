@@ -1,9 +1,10 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
+from serviceFirebase import envoieFireBaseWeeklyPrediction, initFirebase
 
-src_train = "api/prediction/output/train.csv"
-src_test = "api/prediction/output/test.csv"
+src_train = "output/train.csv"
+src_test = "output/test.csv"
 
 def ML_modeling():
     df_train = pd.read_csv(src_train)
@@ -33,4 +34,11 @@ def ML_modeling():
 
     return data_to_app
 
+
+# init firebase
+initFirebase()
+# Save into db firebase
+weekly_pred = ML_modeling()
+envoieFireBaseWeeklyPrediction(weekly_pred)
+print(weekly_pred)
 

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "chauffage-canette",
+  "private_key_id": "1d8ac3f8d0727685aaec4f5a6f40a45073532210",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC8TK80XFSxUVgP\nUzWzRMsRKNcS1i4kbbjuoCHxIEUcrtmyTae7wtAAZK89qmogTy6r8qG1ltJ3/aX8\nae6aGR/Ew4mPj9gVtvvtXmu7ZjQYvXr1+I5Ft/GRTyKrh21XNg7yDXZkXDcbPWpD\n5OPQ3RWOPXruBsAgyUSBk1gUx8fVXmWaOz90NsscVZ4bC1krT8f0UdkC0JV2LXgL\nxnn1D1wRcQfDH7KkRuwD5aeqwh7xHEzafRqz22SrrdIkfLwze/BZiap64XJkZVCK\nQGCaf79GGK8E6UsaZsOj0CTLgnFB1X4iGIMBsdNu7NDPHi1YXOUIdxYJO5K1UA0V\ne49YTFdDAgMBAAECggEADahcPuaBiBj306i76ORQ/E4jh2y8jQzeUISR4azvBl0S\nUjH6vA4tyxGCem0NZImJv5QKMaMeYfCmZPAEC+5NlRZ/uEd9K1oJ3NYv5zhLCA5a\nSFP+ccUdQuZkA9//SMeVfu4GC9J6dsHWHtWPxpr6kMYZ0ADyV45xpxpaVauF7Y5a\n1IvI5RBM8riIMtpo0rfCnkwstQ5U534n+1+gdeT8MfV35o9SEkvBgKv2SF2fRYUo\nFfGSUvW6cB367PLvu3mXePw42nbRiq/wtU3Tq+FrxamuSLIVaPcELKKHgt/LmtK7\nmYfLizCW04Gwii2FMb0iIk7Sw2sIlyB9cm0WfO3cxQKBgQDpVkULXEKK43tAfw7a\n6+O9mwF60we00AkWnwWDxjkYWMdzqAzrz/b5R36NP0mVG2eNJwWzf38qlRF+Hb+e\n4X7OoWON5lw7xt1dK4eaV6QW8/RPyqCXL98+d5PNUnB5Pm37ma+T0CS59YAmFoKx\nZQEr/2uI51RBjRSGCSzUO1e1pQKBgQDOlpibSbuKdcqCerKzxdb6fEbqhUAkRgHx\nDf1sQk75zuw0bkR6UmxXNNn6fjewhaCg1jHH9BTY+BRJvms32UFXixaw3CpOQeXM\neTdxX9qgQ9iZzTwRbs0ltOHGy+jg5zFqqS+1mK0rWVpaicAPA8saFdaG8/nlhOmp\n817rQjRUxwKBgCN6r6Lrk16k+j+zUiHtjkJtSEtRvTE8FLWw1ljUEihmj2VBnz1X\n8Ni0i0SU4+5dLWCkF1TUxRRHeFJx2YoiBXMLzSRta4bXVR9ul/7a5qNq0rIzQDnc\n2JgZ/IpSx7FX0cdY9f6Gvp7b+nFQKO0qS4RSIRq++evBtOYwjPV0VIDVAoGAI3Wj\n8hugzi5TuTu4SrUtpkcIoR6IGPHPSYH+OsPS7HwA/SrkJB7bq8hNlfpuMqVtIc5C\nMzEJFwjV6qZ9ntNyrMUZ+vd/Z3lWKVexFYu/afzbQ+L/aXqcSdmXW1kKuvfT+pvZ\nrZDsQGGQ6bN1PN6I0Qxoizd7cFL1DI/Sfg0aEGcCgYEAqdaQ7u1epErbbIdGhZ6J\nU6fQY+LfygoURpFAw4dXz8AlCaagJkGCn4bMb0K49EBG1f6tu0LrP1YI38A5Z0yY\nhed7+uZHz3LBqene8YP2ra0PeqcMbwRxfy0+P53YSb7Udbds/7xnCk4VQG99E1JW\nBfTrf8HHr6uujZCHZb5YpQc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-js9ib@chauffage-canette.iam.gserviceaccount.com",
+  "client_id": "111875331775216140309",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-js9ib%40chauffage-canette.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
