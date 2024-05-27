@@ -161,10 +161,12 @@ async def cron_routine_allumage_with_creneau():
 @app.post("/cron_meteo_week")
 async def cron_meteo_week():
     fetch_and_filter_meteo_data()
+    return "Donnée Meteo Week OKay updated"
 
 ## App mobile l'appel
 @app.get("/get_prediction")
 async def get_prediction():
+    print("Making ML Computing")
     return ML_modeling()
 
 

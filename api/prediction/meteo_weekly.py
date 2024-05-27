@@ -53,3 +53,4 @@ def fetch_and_filter_meteo_data():
     filtered_df.drop(colonnes_inutiles, axis=1, inplace=True)
 
     filtered_df.to_csv('api/prediction/output/test.csv', index=False)
+
